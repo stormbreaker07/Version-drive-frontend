@@ -1,0 +1,10 @@
+
+
+.backgroundDesign {
+    height: 100%;
+    width: 100%;
+    background-image: url('/home/FoolMonkey/Study/Version Drive FrontEnd/VersionDriveFrontEnd/DashBoard react application/dashboard-application/src/logo/logo3.png');
+    background-repeat: repeat;
+    opacity: 0.8;
+    z-index : 0;
+}

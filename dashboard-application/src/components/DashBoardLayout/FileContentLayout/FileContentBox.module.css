@@ -1,0 +1,42 @@
+.boxSize {
+    width : 279px;
+    height : 200px;
+    margin: 20px 55px 20px 55px;
+    border: solid 2px rgb(216, 207, 207);
+    border-radius: 20px;
+    
+}
+
+.boxSize:hover {
+    box-shadow:  1px 7px 10px 8px #b3aeae;
+    transition: box-shadow 800ms linear;
+}
+
+.rowPattern {
+    display: flex;
+    align-items: center;
+}
+
+
+.columnPattern {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.FileIcon {
+    color:#8195c5;
+    size:30px;
+    font-size: 8.5rem !important;
+}
+
+.IconBox {
+    margin-left:34px;
+}
+
+.MoreVerticalIcon {
+    size : 30px !important;
+    font-size: 2.0rem !important;
+    margin-right: -23px;
+    margin-left: 46px;
+}

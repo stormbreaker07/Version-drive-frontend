@@ -1,0 +1,12 @@
+.rowBoxContainer {
+    display:flex;
+    flex-wrap: wrap;
+    height:100%;
+    width:100%;
+}
+
+.h1 {
+    margin-top: 100px;
+    color:rgb(98, 98, 209);
+    font-size:50px;
+}

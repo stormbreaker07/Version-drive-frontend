@@ -1,0 +1,14 @@
+.outerBox {
+    margin : 25px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.outerBox label {
+    flex : 40%;
+    text-align: left;
+}
+
+.outerBox input {
+    flex : 60%;
+}
