@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
 import classes from './Login.module.css';
 import InputField from './InputField';
-
+import {loginUtilityMethod} from '../../utility/authUtility/loginUtility';
+import {useDispatch} from 'react-redux';
+import {loggedIn} from '../../store/Actions';
 
 const Login = (props) => {
 
-    const [LoginData, setLoginData] = useState({
+    const dispatcher = useDispatch();
+
+    const [loginData, setloginData] = useState({
         email: "",
         password: ""
     });
@@ -14,15 +18,15 @@ const Login = (props) => {
 
         switch (parameter) {
             case "email": {
-                setLoginData({
-                    ...LoginData,
+                setloginData({
+                    ...loginData,
                     email: childData
                 })
                 break;
             }
             case "password": {
-                setLoginData({
-                    ...LoginData,
+                setloginData({
+                    ...loginData,
                     password: childData
                 })
                 break;
@@ -31,14 +35,26 @@ const Login = (props) => {
                 break;
             }
         }
-        //console.log(LoginData);
+        //console.log(loginData);
+    }
+
+    const onSuccess = (responseData) => {
+        dispatcher(loggedIn());
+        console.log(responseData);
+    }
+
+
+    const onError = (error) => {
+        alert(error.response.data.message);
     }
 
 
     const onSubmitHandler = (event) => {
         event.preventDefault();
-        // console.log();
+        loginUtilityMethod(loginData , onSuccess , onError);
     }
+
+
 
     const changePageHandler = (event) => {
         props.pageChanged(event.target.textContent);
