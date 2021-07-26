@@ -109,7 +109,7 @@ const SignUp = (props) => {
             setErrorMessage(
                 {
                     ...errorMessage,
-                    password:"length = 8 to 15 characters,contain at least one lowercase,one uppercase,one numeric digit,and one special character"
+                    password:"length should be 8 to 15 characters,contain at least one lowercase,one uppercase,one numeric digit,and one special character"
                 }
             )
             return;
@@ -147,8 +147,10 @@ const SignUp = (props) => {
         props.pageChanged(event.target.textContent);
     }
 
+
     return (
-        <div className={classes.outerCounter}>
+        
+       <div className={classes.outerCounter}>
             <h1>SIGN UP</h1>
             <form className={classes.form}>
                 <InputField lebelValue="First Name" type="text" updateDate={parentSignUpData} parameter="firstName" />
@@ -162,7 +164,7 @@ const SignUp = (props) => {
                 <button type="submit" onClick={onSubmitHandler} >SUBMIT</button>
                 <div className={classes.insideDiv}>
                     <h2 onClick={changePageHandler}>Login</h2>
-                </div>            
+                    </div>            
             </form>
 
         </div>

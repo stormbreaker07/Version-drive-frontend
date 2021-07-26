@@ -5,31 +5,37 @@ import FileCopyRoundedIcon from '@material-ui/icons/FileCopyRounded';
 import ArrowBackRoundedIcon from '@material-ui/icons/ArrowBackRounded';
 import ArrowForwardRoundedIcon from '@material-ui/icons/ArrowForwardRounded';
 import StorageRoundedIcon from '@material-ui/icons/StorageRounded';
-import { useDispatch } from 'react-redux';
-import { myFiles , sharedFiles , requestedFiles } from '../../../store/Actions';
+import { connect  } from 'react-redux';
+import { myFilesAction , sharedFilesAction , requestedFilesAction } from '../../../store/Actions';
 import { display } from '@material-ui/system';
 
 const LeftNavBarButton = (props) => {
 
-    const dispatch = useDispatch();
+   // const dispatch = useDispatch();
+    const getFilesInfo = (filesInfo) => {
+        console.log(filesInfo);
+    }
+
+
 
     const onChangeFolder = (e) => {
         e.preventDefault();
         switch(props.value) {
             case "My Files" : {
-                dispatch(myFiles());
+                props.myFilesDispatcher();
+
                 break;
             }
             case "Shared Files" : {
-                dispatch(sharedFiles());
+                props.sharedFilesDispatcher();
                 break;
             }
             case "Requested Files" : {
-                dispatch(requestedFiles());
+                props.requestedFileDispatcher();
                 break;
             }
             default : {
-                display(myFiles);
+                props.myFilesDispatcher();
                 break;
             }
         }
@@ -66,4 +72,15 @@ const LeftNavBarButton = (props) => {
     )
 }
 
-export default LeftNavBarButton;
+
+
+const mapDispatchToProps = (dispatch) => {
+        return {
+            myFilesDispatcher : () => dispatch(myFilesAction()) ,
+            sharedFilesDispatcher : () => dispatch(sharedFilesAction()) ,
+            requestedFileDispatcher : () => dispatch(requestedFilesAction())
+        }
+        
+}
+
+export default connect(null , mapDispatchToProps)(LeftNavBarButton);

@@ -3,7 +3,7 @@ import classes from './Login.module.css';
 import InputField from './InputField';
 import {loginUtilityMethod} from '../../utility/authUtility/loginUtility';
 import {useDispatch} from 'react-redux';
-import {loggedIn} from '../../store/Actions';
+import {loggedInAction} from '../../store/Actions';
 
 const Login = (props) => {
 
@@ -39,7 +39,7 @@ const Login = (props) => {
     }
 
     const onSuccess = (responseData) => {
-        dispatcher(loggedIn());
+        dispatcher(loggedInAction());
         console.log(responseData);
     }
 
