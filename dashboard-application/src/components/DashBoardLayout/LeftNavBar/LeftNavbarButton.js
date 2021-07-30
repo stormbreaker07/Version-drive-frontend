@@ -6,16 +6,11 @@ import ArrowBackRoundedIcon from '@material-ui/icons/ArrowBackRounded';
 import ArrowForwardRoundedIcon from '@material-ui/icons/ArrowForwardRounded';
 import StorageRoundedIcon from '@material-ui/icons/StorageRounded';
 import { connect  } from 'react-redux';
-import { myFilesAction , sharedFilesAction , requestedFilesAction } from '../../../store/Actions';
-import { display } from '@material-ui/system';
+import { myFilesAction , sharedFilesAction , requestedFilesAction } from '../../../store/actions/Actions';
+import {sagaFetchFileActionRequest} from '../../../store/actions/FetchMyFilesInfoAction'
+import {sagaFetchSharedFileActionRequest} from '../../../store/actions/fetchSharedFileActions'
 
 const LeftNavBarButton = (props) => {
-
-   // const dispatch = useDispatch();
-    const getFilesInfo = (filesInfo) => {
-        console.log(filesInfo);
-    }
-
 
 
     const onChangeFolder = (e) => {
@@ -23,11 +18,13 @@ const LeftNavBarButton = (props) => {
         switch(props.value) {
             case "My Files" : {
                 props.myFilesDispatcher();
-
+                console.log(props.userId);
+                props.loadFileInfo(props.userId);
                 break;
             }
             case "Shared Files" : {
                 props.sharedFilesDispatcher();
+                props.loadSharedFileInfo(props.userId);
                 break;
             }
             case "Requested Files" : {
@@ -36,6 +33,7 @@ const LeftNavBarButton = (props) => {
             }
             default : {
                 props.myFilesDispatcher();
+                props.loadFileInfo(props.userId);
                 break;
             }
         }
@@ -78,9 +76,19 @@ const mapDispatchToProps = (dispatch) => {
         return {
             myFilesDispatcher : () => dispatch(myFilesAction()) ,
             sharedFilesDispatcher : () => dispatch(sharedFilesAction()) ,
-            requestedFileDispatcher : () => dispatch(requestedFilesAction())
+            requestedFileDispatcher : () => dispatch(requestedFilesAction()),
+            loadFileInfo : (data) => dispatch(sagaFetchFileActionRequest(data)),
+            loadSharedFileInfo : (data) => dispatch(sagaFetchSharedFileActionRequest(data))
         }
         
 }
 
-export default connect(null , mapDispatchToProps)(LeftNavBarButton);
+const mapStateToProps = (state , ownProps) => {
+    return {
+        ...ownProps,
+        userId : state.Auth.data.id,
+        filesInfo : state.fetchMyFileInfo.data
+    }
+}
+
+export default connect(mapStateToProps , mapDispatchToProps)(LeftNavBarButton);

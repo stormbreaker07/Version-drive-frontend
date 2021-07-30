@@ -1,6 +1,8 @@
 import BoxInSingleRow from "./BoxInSingleRow";
 import classes from './ContentLayout.module.css';
 
+
+
 const ContentLayout = () => {
 
 return(

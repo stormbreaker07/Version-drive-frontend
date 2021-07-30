@@ -1,4 +1,4 @@
-import { LOGGED_IN,LOGGED_OUT , MY_FILES,SHARED_FILES,REQUESTED_FILES } from './staticVariable'; 
+import { LOGGED_IN,LOGGED_OUT , MY_FILES,SHARED_FILES,REQUESTED_FILES } from '../staticVariable'; 
 
 export const loggedInAction = () => {
     return { 
@@ -34,5 +34,4 @@ export const requestedFilesAction = () => {
     info : 'User requested files'
     }
 }
-
 

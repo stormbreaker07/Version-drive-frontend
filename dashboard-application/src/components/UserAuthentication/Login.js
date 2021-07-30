@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
 import classes from './Login.module.css';
 import InputField from './InputField';
-import {loginUtilityMethod} from '../../utility/authUtility/loginUtility';
-import {useDispatch} from 'react-redux';
-import {loggedInAction} from '../../store/Actions';
+import {connect } from 'react-redux';
+import {sagaLoginRequest} from '../../store/actions/LogginActions';
 
 const Login = (props) => {
-
-    const dispatcher = useDispatch();
 
     const [loginData, setloginData] = useState({
         email: "",
@@ -38,25 +35,16 @@ const Login = (props) => {
         //console.log(loginData);
     }
 
-    const onSuccess = (responseData) => {
-        dispatcher(loggedInAction());
-        console.log(responseData);
-    }
-
-
-    const onError = (error) => {
-        alert(error.response.data.message);
-    }
-
 
     const onSubmitHandler = (event) => {
         event.preventDefault();
-        loginUtilityMethod(loginData , onSuccess , onError);
+        props.sagaLoginRequest(loginData);
     }
 
 
 
     const changePageHandler = (event) => {
+        console.log(props.printIt)
         props.pageChanged(event.target.textContent);
     }
 
@@ -76,4 +64,17 @@ const Login = (props) => {
     )
 }
 
-export default Login;
+const mapStateToProps = (state , ownProps) => {
+    return {
+        ...ownProps,
+        printIt : state
+    }
+}
+
+const mapDispatchWithProps = (dispatch) => {
+    return {
+        sagaLoginRequest : (data) => dispatch(sagaLoginRequest(data))
+    }
+}
+
+export default connect(mapStateToProps , mapDispatchWithProps)(Login);
