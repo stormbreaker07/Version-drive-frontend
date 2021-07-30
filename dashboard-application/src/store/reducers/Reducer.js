@@ -3,16 +3,20 @@ import { combineReducers } from "redux";
 import {fetchMyFileInfoReducer} from './FetchFileInfoReducer';
 import {loginReducer} from './LoginReducer';
 import { fetchSharedFileInfoReducer } from './fetchSharedFilesReducer';
+import {persistReducer} from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+
 
 const initialCurrentFileState = {
     location : MY_FILES
 }
 
 
-
-
-
-
+const persistConfig = {
+    key : 'root',
+    storage,
+    whitelist : ['Auth']
+}
 
 const currentFilesReducer = (state = initialCurrentFileState ,action) => {
 
@@ -35,7 +39,7 @@ const currentFilesReducer = (state = initialCurrentFileState ,action) => {
 
 
 
-export const rootReducer = combineReducers({
+export const tempRootReducer = combineReducers({
     Auth : loginReducer,
     currentFiles : currentFilesReducer,
     fetchMyFileInfo : fetchMyFileInfoReducer,
@@ -43,3 +47,4 @@ export const rootReducer = combineReducers({
 })
 
 
+export const rootReducer = persistReducer(persistConfig , tempRootReducer );

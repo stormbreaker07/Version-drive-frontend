@@ -1,7 +1,7 @@
 import React from 'react';
 import classes from './FileContentBox.module.css';
-import DescriptionRoundedIcon from '@material-ui/icons/DescriptionRounded';
-import MoreVertRoundedIcon from '@material-ui/icons/MoreVertRounded';
+// import MoreVertRoundedIcon from '@material-ui/icons/MoreVertRounded';
+import FolderOpenRoundedIcon from '@material-ui/icons/FolderOpenRounded';
 
 
 const FileBox = (props) => {
@@ -13,13 +13,13 @@ const FileBox = (props) => {
 
 
     return (
-        <div>
+        <div  onClick={clickHandler}>
             <div className={classes.boxSize} type="button">
                 <div className={classes.columnPattern}>
-                    <DescriptionRoundedIcon className={classes.FileIcon} />
+                    <FolderOpenRoundedIcon className={classes.FileIcon} />
                     <div className={classes.rowPattern}>
-                        <h3>{props.fileDesc.fileName}</h3>
-                        <MoreVertRoundedIcon className={classes.MoreVerticalIcon} onClick={clickHandler}/>
+                        <h3>{props.fileDesc.data.fileName}</h3>
+                        {/* <MoreVertRoundedIcon className={classes.MoreVerticalIcon}/> */}
                     </div>
                 </div>
             </div>
