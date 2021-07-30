@@ -27,6 +27,11 @@ export const loginReducer = (state = initialLogginState , action) => {
             data : action.payload,
             status : LOGGED_OUT
         }
+        case LOGGED_OUT : return{
+            loading : false,
+            data : [],
+            status : LOGGED_OUT
+        }
         default : return state; 
     }
 }

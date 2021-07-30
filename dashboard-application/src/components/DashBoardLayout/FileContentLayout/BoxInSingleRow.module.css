@@ -1,12 +1,32 @@
 .rowBoxContainer {
     display:flex;
+    padding-top: 0%;
     flex-wrap: wrap;
     height:100%;
     width:100%;
 }
 
 .h1 {
-    margin-top: 100px;
-    color:rgb(98, 98, 209);
+
+    color:rgb(68, 68, 128);
     font-size:50px;
+}
+
+.titlebox {
+    margin-top: 0%;
+    display: flex;
+
+}
+
+.iconSize {
+    float:right;
+    color:beige;
+    border: solid rgb(112, 92, 92);
+    border-radius: 110px;
+    padding:0px;
+    margin-top: 1.7%;
+    margin-left:80%;
+    /* text-align: center !important; */ 
+  text-decoration: none;
+  font-size: 4rem !important;
 }
