@@ -1,6 +1,37 @@
 
-export const LOGGED_IN = 'loggedIn';
-export const LOGGED_OUT = 'loggedOut';
-export const MY_FILES = 'My Files';
-export const SHARED_FILES = 'Shared Files';
-export const REQUESTED_FILES = 'Requested Files';
+export const LOGGED_IN = 'LOGGED_IN';
+export const LOGGED_OUT = 'LOGGED_OUT';
+export const MY_FILES = 'MY_FILES';
+export const SHARED_FILES = 'SHARED_FILES';
+export const REQUESTED_FILES = 'REQUESTED_FILES';
+
+export const FETCH_SHARED_FILES = 'FETCH_SHARED_FILES';
+export const FETCH_REQUESTED_FILES = 'FETCH_REQUESTED_FILES';
+export const LOGGED_IN_REQUEST =  'LOGGED_IN_REQUEST';
+export const LOGGED_IN_SUCCESS =  'LOGGED_IN_SUCCESS';
+export const LOGGED_IN_ERROR =  'LOGGED_IN_ERROR';
+export const SAGA_LOGGED_IN_REQUEST = 'SAGA_LOGGED_IN_REQUEST';
+
+//My file static variable 
+export const SAGA_MY_FILES_REQUEST = 'SAGA_MY_FILES_REQUEST';
+export const FETCH_MY_FILES_REQUEST = 'FETCH_MY_FILES_REQUEST';
+export const FETCH_MY_FILES_SUCCESS = 'FETCH_MY_FILES_SUCCESS';
+export const FETCH_MY_FILES_ERROR = 'FETCH_MY_FILES_ERROR';
+
+
+//shared file static variable
+export const SAGA_SHARED_FILES_REQUEST = 'SAGA_SHARED_FILES_REQUEST';
+export const FETCH_SHARED_FILES_REQUEST = 'FETCH_SHARED_FILES_REQUEST';
+export const FETCH_SHARED_FILES_SUCCESS = 'FETCH_SHARED_FILES_SUCCESS';
+export const FETCH_SHARED_FILES_ERROR = 'FETCH_SHARED_FILES_ERROR';
+
+//requested file static variable
+export const SAGA_REQUESTED_FILES_REQUEST = 'SAGA_REQUESTED_FILES_REQUEST';
+export const FETCH_REQUESTED_FILES_REQUEST = 'FETCH_REQUESTED_FILES_REQUEST';
+export const FETCH_REQUESTED_FILES_SUCCESS = 'FETCH_REQUESTED_FILES_SUCCESS';
+export const FETCH_REQUESTED_FILES_ERROR = 'FETCH_REQUESTED_FILES_ERROR';
+
+
+
+// use capitals for constants
+// export const REQUESTED_FILES_ACTION = 'REQUESTED_FILES_ACTION';

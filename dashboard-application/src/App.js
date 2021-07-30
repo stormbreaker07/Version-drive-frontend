@@ -3,19 +3,33 @@ import classes from './App.module.css';
 import NavigationBar from './components/DashBoardLayout/HorizontalNavigationBar/NavigationBar.js';
 import LeftNavBar from './components/DashBoardLayout/LeftNavBar/NavBar';
 import ContentLayout from './components/DashBoardLayout/FileContentLayout/ContentLayout';
-import { useSelector } from 'react-redux';
+import { connect} from 'react-redux';
 import UserAuth from './components/UserAuthentication/UserAuth';
-import { LOGGED_IN ,LOGGED_OUT } from './store/staticVariable';
+import { LOGGED_OUT } from './store/staticVariable';
+import {sagaFetchFileActionRequest} from './store/actions/FetchMyFilesInfoAction'
 
 
 
 
+const App = (props) => {
 
-const App = () => {
+  //const getLogginStatus = useSelector(state => state.Auth.status);
+  const getLogginStatus = props.stateNow.status;
+  console.log(getLogginStatus)
+  
+  if(getLogginStatus === LOGGED_OUT){
+    return (
+      <div className={classes.containerClass}>  
+        <UserAuth />
+      </div>
+      
+    )
+  }
+  else {
 
-  const getLogginStatus = useSelector(state => state.Auth.status);
+    props.initialFIles(props.stateNow.data.id);
 
-  if (getLogginStatus === LOGGED_IN) {
+
     return (
       <Fragment>
         <NavigationBar />
@@ -31,14 +45,21 @@ const App = () => {
       </ Fragment>
     );
   }
-  else if(getLogginStatus === LOGGED_OUT){
-    return (
-      <div className={classes.containerClass}>  
-        <UserAuth />
-      </div>
-      
-    )
-  }
+  
 }
 
-export default App;
+const mapStateToProps = (state , ownProps) => {
+    return {
+      ...ownProps,
+      stateNow : state.Auth
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+      initialFIles : (data) => dispatch(sagaFetchFileActionRequest(data))
+    }
+}
+
+
+export default connect(mapStateToProps ,mapDispatchToProps)(App);

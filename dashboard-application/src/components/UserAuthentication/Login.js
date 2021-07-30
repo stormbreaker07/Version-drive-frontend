@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import classes from './Login.module.css';
 import InputField from './InputField';
-
+import {connect } from 'react-redux';
+import {sagaLoginRequest} from '../../store/actions/LogginActions';
 
 const Login = (props) => {
 
-    const [LoginData, setLoginData] = useState({
+    const [loginData, setloginData] = useState({
         email: "",
         password: ""
     });
@@ -14,15 +15,15 @@ const Login = (props) => {
 
         switch (parameter) {
             case "email": {
-                setLoginData({
-                    ...LoginData,
+                setloginData({
+                    ...loginData,
                     email: childData
                 })
                 break;
             }
             case "password": {
-                setLoginData({
-                    ...LoginData,
+                setloginData({
+                    ...loginData,
                     password: childData
                 })
                 break;
@@ -31,16 +32,19 @@ const Login = (props) => {
                 break;
             }
         }
-        //console.log(LoginData);
+        //console.log(loginData);
     }
 
 
     const onSubmitHandler = (event) => {
         event.preventDefault();
-        // console.log();
+        props.sagaLoginRequest(loginData);
     }
 
+
+
     const changePageHandler = (event) => {
+        console.log(props.printIt)
         props.pageChanged(event.target.textContent);
     }
 
@@ -60,4 +64,17 @@ const Login = (props) => {
     )
 }
 
-export default Login;
+const mapStateToProps = (state , ownProps) => {
+    return {
+        ...ownProps,
+        printIt : state
+    }
+}
+
+const mapDispatchWithProps = (dispatch) => {
+    return {
+        sagaLoginRequest : (data) => dispatch(sagaLoginRequest(data))
+    }
+}
+
+export default connect(mapStateToProps , mapDispatchWithProps)(Login);
