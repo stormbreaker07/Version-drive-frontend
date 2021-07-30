@@ -7,8 +7,8 @@ export const requestedFileService = (userId) => {
 
 
     return axios({
-        method : 'get',
-        url : `http://localhost:8080/dashboard/${userId}/requested-files`,
+        method: 'get',
+        url: `http://localhost:8080/dashboard/${userId}/requested-files`,
         //headers : headers
     })
 
