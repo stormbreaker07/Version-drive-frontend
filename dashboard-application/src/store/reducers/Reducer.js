@@ -5,7 +5,7 @@ import {loginReducer} from './LoginReducer';
 import { fetchSharedFileInfoReducer } from './fetchSharedFilesReducer';
 import {persistReducer} from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-
+import {fetchRequestedFileInfoReducer} from './fetchRequestedFilesReducer'
 
 const initialCurrentFileState = {
     location : MY_FILES
@@ -43,7 +43,8 @@ export const tempRootReducer = combineReducers({
     Auth : loginReducer,
     currentFiles : currentFilesReducer,
     fetchMyFileInfo : fetchMyFileInfoReducer,
-    fetchSharedFileInfo : fetchSharedFileInfoReducer
+    fetchSharedFileInfo : fetchSharedFileInfoReducer,
+    fetchRequestedFileInfo : fetchRequestedFileInfoReducer
 })
 
 

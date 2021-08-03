@@ -9,6 +9,7 @@ import { connect  } from 'react-redux';
 import { myFilesAction , sharedFilesAction , requestedFilesAction } from '../../../store/actions/Actions';
 import {sagaFetchFileActionRequest} from '../../../store/actions/FetchMyFilesInfoAction'
 import {sagaFetchSharedFileActionRequest} from '../../../store/actions/fetchSharedFileActions'
+import { sagaFetchRequestedFileActionRequest } from '../../../store/actions/FetchRequestedFilesActions';
 
 const LeftNavBarButton = (props) => {
 
@@ -29,6 +30,7 @@ const LeftNavBarButton = (props) => {
             }
             case "Requested Files" : {
                 props.requestedFileDispatcher();
+                props.loadRequestedFileInfo(props.userId);
                 break;
             }
             default : {
@@ -78,7 +80,8 @@ const mapDispatchToProps = (dispatch) => {
             sharedFilesDispatcher : () => dispatch(sharedFilesAction()) ,
             requestedFileDispatcher : () => dispatch(requestedFilesAction()),
             loadFileInfo : (data) => dispatch(sagaFetchFileActionRequest(data)),
-            loadSharedFileInfo : (data) => dispatch(sagaFetchSharedFileActionRequest(data))
+            loadSharedFileInfo : (data) => dispatch(sagaFetchSharedFileActionRequest(data)),
+            loadRequestedFileInfo : (data) => dispatch(sagaFetchRequestedFileActionRequest(data))
         }
         
 }

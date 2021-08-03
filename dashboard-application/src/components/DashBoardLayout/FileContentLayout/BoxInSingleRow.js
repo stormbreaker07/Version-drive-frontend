@@ -1,7 +1,7 @@
 import FileBox from './FileConentBox';
 import classes from './BoxInSingleRow.module.css';
 import { connect } from 'react-redux';
-import { MY_FILES, SHARED_FILES } from '../../../store/staticVariable';
+import { MY_FILES, REQUESTED_FILES, SHARED_FILES } from '../../../store/staticVariable';
 import SimpleModal from './AddFilebutton';
 
 
@@ -14,15 +14,29 @@ const BoxInSingleRow = (props) => {
 
     let filesInfo = [];
 
+    // console.log(props.currentFiles.location)    
 
-    switch (props.currentFiles.loaction) {
+    switch (props.currentFiles.location) {
         case (MY_FILES): {
             filesInfo = props.loadMyfiles;
             break;
         }
         case (SHARED_FILES): {
-            filesInfo = props.sharedfiles
-            console.log(props.sharedfiles)
+            const tempFiles = props.sharedfiles;
+            for(let i = 0;i<tempFiles.length;i++) {
+                filesInfo.push(tempFiles[i].fileInfo);
+            } 
+            console.log(filesInfo);
+
+            // console.log(props.sharedfiles)
+            break;
+        }
+        case (REQUESTED_FILES) : {
+            const tempFiles = props.requestedFiles.data; 
+            for(let i = 0;i<tempFiles.length;i++) {
+                filesInfo.push(tempFiles[i].fileInfo);
+            } 
+            // console.log(tempFiles.data);
             break;
         }
         default: {
@@ -32,7 +46,6 @@ const BoxInSingleRow = (props) => {
 
 
     let allMyFiles;
-    filesInfo = props.loadMyfiles;
 
     let set1 = new Set();
     let uniqueFiles = [];
@@ -63,14 +76,14 @@ const BoxInSingleRow = (props) => {
 
 
 
-    console.log(props.currentFiles);
+    // console.log(props.currentFiles);
     
 
     return (
         <div>
             <div    className={classes.titlebox}>
             <h1 className={classes.h1}>{props.currentFiles.location}</h1>
-            {props.currentFiles.location == MY_FILES ? <SimpleModal /> : <p />}
+            {props.currentFiles.location === MY_FILES ? <SimpleModal /> : <p />}
             </div>
             <div className={classes.rowBoxContainer}>
                 {allMyFiles}
@@ -84,7 +97,8 @@ const mapStateToProps = (state, ownprops) => {
         ...ownprops,
         currentFiles: state.currentFiles,
         loadMyfiles: state.fetchMyFileInfo.data,
-        sharedfiles: state.fetchSharedFileInfoReducer,
+        sharedfiles: state.fetchSharedFileInfo.data,
+        requestedFiles : state.fetchRequestedFileInfo
     }
 }
 

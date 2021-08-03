@@ -20,6 +20,7 @@
 
 .rowPattern h3 {
     overflow-y:hidden;
+    overflow-x: auto;
     color: rgb(75, 75, 75);
 }
 

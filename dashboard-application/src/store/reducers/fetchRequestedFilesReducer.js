@@ -1,4 +1,4 @@
-import { FETCH_REQUESTED_FILES_SUCCESS , FETCH_REQUESTED_FILES_REQUEST, FETCH_REQUESTED_FILES_REQUEST } from '../staticVariable';
+import { FETCH_REQUESTED_FILES_SUCCESS , FETCH_REQUESTED_FILES_REQUEST, FETCH_REQUESTED_FILES_ERROR } from '../staticVariable';
 
 
 const initialRequestedFileInfoState = {
@@ -7,7 +7,7 @@ const initialRequestedFileInfoState = {
     error : ''
 }
 
-export const fetchSharedFileInfoReducer = (state = initialRequestedFileInfoState, action) => {
+export const fetchRequestedFileInfoReducer = (state = initialRequestedFileInfoState, action) => {
 
     switch(action.type) {
         case FETCH_REQUESTED_FILES_REQUEST : return {

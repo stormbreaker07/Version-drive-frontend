@@ -1,19 +1,19 @@
 import { put, takeLatest } from "redux-saga/effects";
 import { SAGA_SHARED_FILES_REQUEST } from "../store/staticVariable";
 import {sharedFilesUility} from '../utility/fileUtility/sharedFilesUtility';
-import {fetchFileActionSuccess ,fetchFileActionError} from '../store/actions/FetchMyFilesInfoAction'; 
+import {fetchSharedFileActionSuccess ,fetchSharedFileActionError} from '../store/actions/fetchSharedFileActions'; 
 
 
 function* forwardAction(action) {
     try {
         console.log('actionPayload' + action.payload);
         const response = yield sharedFilesUility(action.payload);
-        console.log(response);
-        yield put(fetchFileActionSuccess(response.data));
+        console.log(response.data[0].fileInfo);
+        yield put(fetchSharedFileActionSuccess(response.data));
     }
     catch(error) {
         console.log(error);
-        yield put(fetchFileActionError(error));
+        yield put(fetchSharedFileActionError(error));
     }
 }
 

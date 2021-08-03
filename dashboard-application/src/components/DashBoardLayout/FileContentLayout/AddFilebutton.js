@@ -53,7 +53,7 @@ function SimpleModal(props) {
   const [fileName, setFileName] = useState({
     uploadedfile: null,
     fileName: '',
-    fileType: 'Un Known',
+    fileType: 'UnKnown',
     fileSize: 0,
     fileSelected: false
   })
