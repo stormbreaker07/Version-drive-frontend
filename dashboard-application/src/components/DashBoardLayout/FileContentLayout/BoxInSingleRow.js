@@ -2,7 +2,8 @@ import FileBox from './FileConentBox';
 import classes from './BoxInSingleRow.module.css';
 import { connect } from 'react-redux';
 import { MY_FILES, SHARED_FILES } from '../../../store/staticVariable';
-import AddCircleRoundedIcon from '@material-ui/icons/AddCircleRounded';
+import SimpleModal from './AddFilebutton';
+
 
 const BoxInSingleRow = (props) => {
 
@@ -14,7 +15,7 @@ const BoxInSingleRow = (props) => {
     let filesInfo = [];
 
 
-    switch (props.currentFiles) {
+    switch (props.currentFiles.loaction) {
         case (MY_FILES): {
             filesInfo = props.loadMyfiles;
             break;
@@ -62,14 +63,14 @@ const BoxInSingleRow = (props) => {
 
 
 
-    //console.log(uniqueFiles)
-
+    console.log(props.currentFiles);
+    
 
     return (
         <div>
             <div    className={classes.titlebox}>
             <h1 className={classes.h1}>{props.currentFiles.location}</h1>
-            <AddCircleRoundedIcon className={classes.iconSize}/>
+            {props.currentFiles.location == MY_FILES ? <SimpleModal /> : <p />}
             </div>
             <div className={classes.rowBoxContainer}>
                 {allMyFiles}
