@@ -98,11 +98,13 @@ function SimpleModal(props) {
     <div style={modalStyle} className={classe.paper}>
       <h2>File Uploader</h2>
       <input type='file' onChange={onChangeHandler} ></input>
+      <br /> 
       {fileName.fileSelected === true ? <div>
         <h3>File Name is : {fileName.fileName}</h3>
         <h3>File Type is : {fileName.fileType}</h3>
         <h3>File Size is : {fileName.fileSize + "MB"}</h3>
       </div> : <h3>select a file</h3>}
+      <br/> 
       <button onClick={onSubmitHandler}>upload The File</button>
     </div>
   );

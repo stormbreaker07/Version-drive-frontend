@@ -1,9 +1,10 @@
-import FileBox from './FileConentBox';
+import { useState } from 'react';
 import classes from './BoxInSingleRow.module.css';
 import { connect } from 'react-redux';
 import { MY_FILES, REQUESTED_FILES, SHARED_FILES } from '../../../store/staticVariable';
 import SimpleModal from './AddFilebutton';
-
+import FileList from './FileList';
+import ViewFolder from './ViewFolder';
 
 const BoxInSingleRow = (props) => {
 
@@ -11,6 +12,12 @@ const BoxInSingleRow = (props) => {
 
    // console.log(props.loadMyfiles);
 
+   const [fileList , setFileList] = useState(
+       {
+            status : true,
+            folderName : ''    
+       }
+   )
 
     let filesInfo = [];
 
@@ -45,50 +52,35 @@ const BoxInSingleRow = (props) => {
     }
 
 
-    let allMyFiles;
+    const changeFileListState = (name) => {
 
-    let set1 = new Set();
-    let uniqueFiles = [];
-    let siz = 0;
-    for (let i = 0; i < filesInfo.length; i++) {
-        if (i === 0) {
-            set1.add(filesInfo[i].fileName);
-            siz++;
-            uniqueFiles.push(filesInfo[i]);
-            continue;
-        }
-
-        set1.add(filesInfo[i].fileName);
-        if (set1.size !== siz) {
-            uniqueFiles.push(filesInfo[i]);
-            siz = set1.size;
-        }
+        setFileList({
+            ...fileList,
+            status : false,
+            folderName : name
+        })
     }
 
-    if (uniqueFiles.length === 0) {
-        allMyFiles = <h2>Not shared a single file till now </h2>;
+    const setFileListToDefault = () => {
+        setFileList({
+            ...fileList,
+            status : true,
+            folderName : ''
+        })
     }
-    else {
-        allMyFiles = uniqueFiles.map((data) =>
-            <FileBox key={data.file_id}  fileDesc={{data: data}} />
-        );
-    }
-
-
-
-    // console.log(props.currentFiles);
     
 
     return (
+        fileList.status === true ? 
         <div>
-            <div    className={classes.titlebox}>
+            <div className={classes.titlebox}>
             <h1 className={classes.h1}>{props.currentFiles.location}</h1>
             {props.currentFiles.location === MY_FILES ? <SimpleModal /> : <p />}
             </div>
-            <div className={classes.rowBoxContainer}>
-                {allMyFiles}
-            </div>
+            <FileList data={{list : filesInfo}} clickHandler={changeFileListState}/>
         </div>
+        :
+        <ViewFolder clickHandler={setFileListToDefault} data={filesInfo} folderName={fileList.folderName} />
     )
 }
 
