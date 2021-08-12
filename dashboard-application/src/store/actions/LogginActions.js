@@ -1,4 +1,4 @@
-import {LOGGED_IN_ERROR , LOGGED_IN_SUCCESS , LOGGED_IN_REQUEST , SAGA_LOGGED_IN_REQUEST} from '../staticVariable';
+import {LOGGED_IN_ERROR , LOGGED_IN_SUCCESS , LOGGED_IN_REQUEST , SAGA_LOGGED_IN_REQUEST, LOGGED_OUT} from '../staticVariable';
 
 
 export const LoginRequest = (data) => {
@@ -27,5 +27,11 @@ export const sagaLoginRequest = (data) => {
     return {
         type : SAGA_LOGGED_IN_REQUEST,
         payload : data
+    }
+}
+
+export const userLoggedOutAction = () => {
+    return {
+        type : LOGGED_OUT
     }
 }

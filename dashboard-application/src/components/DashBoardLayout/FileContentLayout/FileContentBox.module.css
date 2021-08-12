@@ -3,13 +3,13 @@
     height : 200px;
     margin: 20px 55px 20px 55px;
     border: solid 2px rgb(216, 207, 207);
-    border-radius: 20px;
-    
+    border-radius: 16px;
+    background-color: white;
 }
 
 .boxSize:hover {
-    box-shadow:  1px 7px 10px 8px #b3aeae;
-    transition: box-shadow 800ms linear;
+    box-shadow: 4px 20px 16px 4px #7d7d7df2;
+    transition: box-shadow 400ms linear;
 }
 
 .rowPattern {
@@ -20,6 +20,7 @@
 
 .rowPattern h3 {
     overflow-y:hidden;
+    overflow-x: auto;
     color: rgb(75, 75, 75);
 }
 

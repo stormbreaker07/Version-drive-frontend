@@ -1,12 +1,13 @@
 import {uploadFile} from '../../services/filesServices/uploadFileService';
 
-export const uploadFileUtility = (formData) => {
+export const uploadFileUtility = (userId , fileVersion , formData , getResponse) => {
 
-    const promise = uploadFile(formData);
+    const promise = uploadFile(userId , fileVersion , formData);
     promise.then((response) => {
-        console.log(response.data);
+        getResponse('success');
     })
     .catch((error) => {
-        console.log(error.response.data.message);
+        alert(error.response.data.message);
+        getResponse('failure');
     })
 } 

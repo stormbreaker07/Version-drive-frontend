@@ -1,4 +1,4 @@
-import { FETCH_MY_FILES_ERROR , FETCH_MY_FILES_REQUEST, FETCH_MY_FILES_SUCCESS , SAGA_MY_FILES_REQUEST} from '../staticVariable';
+import { DELETE_FILE_FROM_STATE, FETCH_MY_FILES_ERROR , FETCH_MY_FILES_REQUEST, FETCH_MY_FILES_SUCCESS , SAGA_MY_FILES_REQUEST} from '../staticVariable';
 
 
 export const fetchFileActionRequested = () => {
@@ -27,3 +27,10 @@ export const sagaFetchFileActionRequest = (data) => {
         payload : data
     }
 }
+
+export const deleteFileFromMyFiles = (fileId) => {
+    return {
+        type : DELETE_FILE_FROM_STATE ,
+        payload : fileId
+    }
+} 

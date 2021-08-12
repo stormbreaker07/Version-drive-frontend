@@ -18,8 +18,6 @@ const NavBar = (props) => {
             <div className={classes.underLine}></div>
             <Button value="Shared Files" />
             <div className={classes.underLine}></div>
-            <Button value="Requested Files" />
-            <div className={classes.underLine}></div>
             <Button value="Storage Used" />
             <div className={classes.underLine}></div>
 
