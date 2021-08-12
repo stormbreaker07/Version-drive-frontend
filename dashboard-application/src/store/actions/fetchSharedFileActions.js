@@ -1,4 +1,4 @@
-import { FETCH_SHARED_FILES_ERROR , FETCH_SHARED_FILES_REQUEST, FETCH_SHARED_FILES_SUCCESS , SAGA_SHARED_FILES_REQUEST} from '../staticVariable';
+import { DELETE_FILE_FROM_STATE , FETCH_SHARED_FILES_ERROR , FETCH_SHARED_FILES_REQUEST, FETCH_SHARED_FILES_SUCCESS , SAGA_SHARED_FILES_REQUEST} from '../staticVariable';
 
 
 export const fetchSharedFileActionRequested = () => {
@@ -27,3 +27,10 @@ export const sagaFetchSharedFileActionRequest = (data) => {
         payload : data
     }
 }
+
+export const deleteFileFromSharedFiles = (fileId) => {
+    return {
+        type : DELETE_FILE_FROM_STATE ,
+        payload : fileId
+    }
+} 

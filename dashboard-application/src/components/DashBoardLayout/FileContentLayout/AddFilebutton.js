@@ -3,18 +3,14 @@ import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import AddCircleRoundedIcon from '@material-ui/icons/AddCircleRounded';
 import classes from './AddFilebutton.module.css';
-import axios from 'axios';
-import {connect} from 'react-redux';
-import {sagaFetchFileActionRequest} from '../../../store/actions/FetchMyFilesInfoAction'
+import { connect } from 'react-redux';
+import { sagaFetchFileActionRequest } from '../../../store/actions/FetchMyFilesInfoAction'
+import { uploadFileUtility } from '../../../utility/fileUtility/uploadFilesUtility.js'
 
-
-function rand() {
-  return Math.round(Math.random() * 20) - 10;
-}
 
 function getModalStyle() {
-  const top = 50 + rand();
-  const left = 50 + rand();
+  const top = 50;
+  const left = 50;
 
   return {
     top: `${top}%`,
@@ -60,22 +56,37 @@ function SimpleModal(props) {
 
   const onChangeHandler = (event) => {
 
-    console.log(event.target.files[0])
+    console.log(props.filesInfo)
 
     setFileName({
       ...fileName,
-      uploadedfile : event.target.files[0],
+      uploadedfile: event.target.files[0],
       fileName: event.target.files[0].name,
       fileType: event.target.files[0].type,
       fileSize: event.target.files[0].size / (1000 * 1000),
       fileSelected: true
     })
+
+
   }
 
 
   const onSubmitHandler = () => {
     const formData = new FormData();
-    
+
+    let fileversion = 0;
+    const requiredFileName = fileName.fileName;
+    for (let i = 0; i < props.filesInfo.length; i++) {
+      if (requiredFileName === props.filesInfo[i].fileName) {
+        if (fileversion < Number(props.filesInfo[i].fileVersion)) {
+          fileversion = Number(props.filesInfo[i].fileVersion);
+        }
+      }
+    }
+
+
+    console.log(fileversion);
+
     formData.append(
       "file",
       fileName.uploadedfile,
@@ -83,28 +94,35 @@ function SimpleModal(props) {
     );
 
     console.log(formData);
-    
-      
-    axios.post(`http://localhost:8080/files/${props.userId}/upload/0`, formData).then((response) => {
-      props.loadMyFIles(props.userId);  
-    })
-    .catch((err) => {
-      console.log(err.response.message)
-    })
-      handleClose();  
+
+
+      uploadFileUtility(props.userId , fileversion , formData , getuploadFileResponse);
+
+    handleClose();
   }
+
+  const getuploadFileResponse = (responseStatus) =>{
+    if(responseStatus === "success") {
+      props.loadMyFIles(props.userId);
+    }
+    else {
+      console.log("file upload action failuer");
+    }
+  }
+
+
 
   const body = (
     <div style={modalStyle} className={classe.paper}>
       <h2>File Uploader</h2>
       <input type='file' onChange={onChangeHandler} ></input>
-      <br /> 
+      <br />
       {fileName.fileSelected === true ? <div>
         <h3>File Name is : {fileName.fileName}</h3>
         <h3>File Type is : {fileName.fileType}</h3>
         <h3>File Size is : {fileName.fileSize + "MB"}</h3>
       </div> : <h3>select a file</h3>}
-      <br/> 
+      <br />
       <button onClick={onSubmitHandler}>upload The File</button>
     </div>
   );
@@ -124,21 +142,21 @@ function SimpleModal(props) {
   );
 }
 
-const mapStateToProps = (state , ownProps) => {
-    return {
-      ...ownProps,
-      userId : state.Auth.data.id,
-      myFiles : state.fetchMyFileInfo.data
-    }
+const mapStateToProps = (state, ownProps) => {
+  return {
+    ...ownProps,
+    userId: state.Auth.data.id,
+    myFiles: state.fetchMyFileInfo.data
+  }
 }
 
 
 const mapActionsToProps = (dispatch) => {
 
   return {
-    loadMyFIles : (data) => dispatch(sagaFetchFileActionRequest(data))
+    loadMyFIles: (data) => dispatch(sagaFetchFileActionRequest(data))
   }
 }
 
 
-export default connect(mapStateToProps,mapActionsToProps)(SimpleModal);
+export default connect(mapStateToProps, mapActionsToProps)(SimpleModal);

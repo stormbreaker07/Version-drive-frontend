@@ -8,7 +8,7 @@ function* forwardAction(action) {
     try {
         console.log('actionPayload' + action.payload);
         const response = yield sharedFilesUility(action.payload);
-        console.log(response.data[0].fileInfo);
+        console.log(response.data);
         yield put(fetchSharedFileActionSuccess(response.data));
     }
     catch(error) {

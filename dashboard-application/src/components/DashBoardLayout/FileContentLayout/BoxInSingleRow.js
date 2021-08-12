@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import classes from './BoxInSingleRow.module.css';
 import { connect } from 'react-redux';
-import { MY_FILES, REQUESTED_FILES, SHARED_FILES } from '../../../store/staticVariable';
+import { MY_FILES , SHARED_FILES } from '../../../store/staticVariable';
 import SimpleModal from './AddFilebutton';
 import FileList from './FileList';
 import ViewFolder from './ViewFolder';
@@ -11,13 +11,25 @@ const BoxInSingleRow = (props) => {
     // const currentLocation = useSelector((state) => state.currentFiles.location)
 
    // console.log(props.loadMyfiles);
+   const changeFileListState = (name) => {
 
-   const [fileList , setFileList] = useState(
-       {
+    setFileList({
+        ...fileList,
+        status : false,
+        folderName : name
+    })
+}
+   const [fileList , setFileList] = useState({
             status : true,
             folderName : ''    
-       }
-   )
+       })
+   
+   const setFileListToDefault = () => {
+    setFileList({
+        ...fileList,
+        status : true,
+        folderName : ''
+    })}
 
     let filesInfo = [];
 
@@ -38,44 +50,17 @@ const BoxInSingleRow = (props) => {
             // console.log(props.sharedfiles)
             break;
         }
-        case (REQUESTED_FILES) : {
-            const tempFiles = props.requestedFiles.data; 
-            for(let i = 0;i<tempFiles.length;i++) {
-                filesInfo.push(tempFiles[i].fileInfo);
-            } 
-            // console.log(tempFiles.data);
-            break;
-        }
         default: {
             filesInfo = props.loadfiles
         }
     }
-
-
-    const changeFileListState = (name) => {
-
-        setFileList({
-            ...fileList,
-            status : false,
-            folderName : name
-        })
-    }
-
-    const setFileListToDefault = () => {
-        setFileList({
-            ...fileList,
-            status : true,
-            folderName : ''
-        })
-    }
-    
-
+   
     return (
         fileList.status === true ? 
         <div>
             <div className={classes.titlebox}>
             <h1 className={classes.h1}>{props.currentFiles.location}</h1>
-            {props.currentFiles.location === MY_FILES ? <SimpleModal /> : <p />}
+            {props.currentFiles.location === MY_FILES ? <SimpleModal filesInfo={filesInfo}/> : <p />}
             </div>
             <FileList data={{list : filesInfo}} clickHandler={changeFileListState}/>
         </div>
@@ -83,6 +68,7 @@ const BoxInSingleRow = (props) => {
         <ViewFolder clickHandler={setFileListToDefault} data={filesInfo} folderName={fileList.folderName} />
     )
 }
+
 
 const mapStateToProps = (state, ownprops) => {
     return {

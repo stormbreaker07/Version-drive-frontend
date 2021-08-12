@@ -3,13 +3,11 @@ import classes from './LeftNavBarButton.module.css'
 import ProgressBarContainer from '../ProgressBar/ProgressBarContainer';
 import FileCopyRoundedIcon from '@material-ui/icons/FileCopyRounded';
 import ArrowBackRoundedIcon from '@material-ui/icons/ArrowBackRounded';
-import ArrowForwardRoundedIcon from '@material-ui/icons/ArrowForwardRounded';
 import StorageRoundedIcon from '@material-ui/icons/StorageRounded';
 import { connect  } from 'react-redux';
-import { myFilesAction , sharedFilesAction , requestedFilesAction } from '../../../store/actions/Actions';
+import { myFilesAction , sharedFilesAction } from '../../../store/actions/Actions';
 import {sagaFetchFileActionRequest} from '../../../store/actions/FetchMyFilesInfoAction'
 import {sagaFetchSharedFileActionRequest} from '../../../store/actions/fetchSharedFileActions'
-import { sagaFetchRequestedFileActionRequest } from '../../../store/actions/FetchRequestedFilesActions';
 
 const LeftNavBarButton = (props) => {
 
@@ -28,11 +26,6 @@ const LeftNavBarButton = (props) => {
                 props.loadSharedFileInfo(props.userId);
                 break;
             }
-            case "Requested Files" : {
-                props.requestedFileDispatcher();
-                props.loadRequestedFileInfo(props.userId);
-                break;
-            }
             default : {
                 props.myFilesDispatcher();
                 props.loadFileInfo(props.userId);
@@ -47,9 +40,6 @@ const LeftNavBarButton = (props) => {
     }
     else if (props.value === "Shared Files") {
         x = <ArrowBackRoundedIcon />;
-    }
-    else if (props.value === "Requested Files") {
-        x = <ArrowForwardRoundedIcon />;
     } else {
         x = <div className={classes.outerContainer} role="button">
                 <div className={classes.column}>
@@ -78,10 +68,8 @@ const mapDispatchToProps = (dispatch) => {
         return {
             myFilesDispatcher : () => dispatch(myFilesAction()) ,
             sharedFilesDispatcher : () => dispatch(sharedFilesAction()) ,
-            requestedFileDispatcher : () => dispatch(requestedFilesAction()),
             loadFileInfo : (data) => dispatch(sagaFetchFileActionRequest(data)),
             loadSharedFileInfo : (data) => dispatch(sagaFetchSharedFileActionRequest(data)),
-            loadRequestedFileInfo : (data) => dispatch(sagaFetchRequestedFileActionRequest(data))
         }
         
 }
