@@ -1,4 +1,3 @@
-import { connect } from 'react-redux';
 import { DELETE_FILE_FROM_STATE ,FETCH_SHARED_FILES_ERROR , FETCH_SHARED_FILES_REQUEST, FETCH_SHARED_FILES_SUCCESS } from '../staticVariable';
 
 

@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
-import AddCircleRoundedIcon from '@material-ui/icons/AddCircleRounded';
 import classes from './AddFilebutton.module.css';
 import { connect } from 'react-redux';
 import { sagaFetchFileActionRequest } from '../../../store/actions/FetchMyFilesInfoAction'
-import { uploadFileUtility } from '../../../utility/fileUtility/uploadFilesUtility.js'
+import { sagaFetchSharedFileActionRequest } from '../../../store/actions/fetchSharedFileActions';
+import UpdateIcon from '@material-ui/icons/Update';
+import { updateSharedFileUtility } from '../../../utility/fileUtility/updateSharedFileItility';
 
 
 function getModalStyle() {
@@ -31,10 +32,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function SimpleModal(props) {
+function UpdateSharedFileButton(props) {
 
 
-  console.log(props.filesInfo)
+  console.log(props)
+
   const classe = useStyles();
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = React.useState(getModalStyle);
@@ -64,7 +66,7 @@ function SimpleModal(props) {
     setFileName({
       ...fileName,
       uploadedfile: event.target.files[0],
-      fileName: event.target.files[0].name,
+      fileName: props.filesInfo.fileName,
       fileType: event.target.files[0].type,
       fileSize: event.target.files[0].size / (1000 * 1000),
       fileSelected: true
@@ -76,7 +78,7 @@ function SimpleModal(props) {
 
   const onSubmitHandler = () => {
     const formData = new FormData();
-
+    let repoOwner = props.fileOwnerId;
     let fileversion = 0;
     const requiredFileName = fileName.fileName;
     for (let i = 0; i < props.filesInfo.length; i++) {
@@ -87,6 +89,7 @@ function SimpleModal(props) {
       }
     }
 
+    console.log(fileName)
 
     console.log(fileversion);
 
@@ -99,17 +102,17 @@ function SimpleModal(props) {
     console.log(formData);
 
 
-      uploadFileUtility(props.userId , fileversion , formData , getuploadFileResponse);
+      updateSharedFileUtility(repoOwner , fileversion ,props.userId , formData , getuploadFileResponse);
 
     handleClose();
   }
 
   const getuploadFileResponse = (responseStatus) =>{
     if(responseStatus === "success") {
-      props.loadMyFIles(props.userId);
+      props.loadSharedFiles(props.userId);
     }
     else {
-      console.log("file upload action failuer");
+      alert("file upload action failure");
     }
   }
 
@@ -117,7 +120,7 @@ function SimpleModal(props) {
 
   const body = (
     <div style={modalStyle} className={classe.paper}>
-      <h2>File Uploader</h2>
+      <h2>updated File Version</h2>
       <input type='file' onChange={onChangeHandler} ></input>
       <br />
       {fileName.fileSelected === true ? <div>
@@ -132,7 +135,7 @@ function SimpleModal(props) {
 
   return (
     <div className={classes.titlebox}>
-      <AddCircleRoundedIcon className={classes.iconSize} onClick={handleOpen} />
+      <UpdateIcon onClick={handleOpen} />
       <Modal
         open={open}
         onClose={handleClose}
@@ -149,7 +152,8 @@ const mapStateToProps = (state, ownProps) => {
   return {
     ...ownProps,
     userId: state.Auth.data.id,
-    myFiles: state.fetchMyFileInfo.data
+    myFiles: state.fetchMyFileInfo.data,
+    sharedFiles : state.fetchSharedFileInfo.data
   }
 }
 
@@ -157,9 +161,10 @@ const mapStateToProps = (state, ownProps) => {
 const mapActionsToProps = (dispatch) => {
 
   return {
-    loadMyFIles: (data) => dispatch(sagaFetchFileActionRequest(data))
+    loadMyFIles: (data) => dispatch(sagaFetchFileActionRequest(data)),
+    loadSharedFiles : (userId) => dispatch(sagaFetchSharedFileActionRequest(userId))
   }
 }
 
 
-export default connect(mapStateToProps, mapActionsToProps)(SimpleModal);
+export default connect(mapStateToProps, mapActionsToProps)(UpdateSharedFileButton);

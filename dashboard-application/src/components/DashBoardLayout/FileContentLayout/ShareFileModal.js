@@ -54,7 +54,7 @@ function ShareFileModal(props) {
 
     const [emailStatus , setEmailStatus] = React.useState({status : ''})
 
-    console.log(sharingInfo)
+    //console.log(sharingInfo)
 
  const getPermissionType = (data) => {
     setSharingInfo({
@@ -92,7 +92,7 @@ function ShareFileModal(props) {
 
     
     const onSubmitHandler = () => {
-        console.log("path")
+        //console.log("path")
         fileSharingUtility(sharingInfo , getFileSharingServiceResponse);
         handleClose();
     }
@@ -114,7 +114,7 @@ function ShareFileModal(props) {
     const getStatus = (status) =>{
       
         if(status.data === 'Verified') {
-            console.log(status)
+            //console.log(status)
             setDisableShareButton({
                 disabled : false
             })
@@ -136,6 +136,11 @@ function ShareFileModal(props) {
 
     const getEmailVerficationStatus = () => {
        //console.log(sharingInfo.email)
+       if(sharingInfo.email === props.userEmail) {
+           console.log('cant do it');
+           alert('You cant share your file to yourself !');
+           return ;
+        }
         verifyRecieversEmailService(sharingInfo.email , getStatus);
        
     
@@ -193,6 +198,7 @@ const mapStateToProps = (state, ownProps) => {
     return {
         ...ownProps,
         userId: state.Auth.data.id,
+        userEmail : state.Auth.data.email,
         myFiles: state.fetchMyFileInfo.data
     }
 }

@@ -1,4 +1,3 @@
-import  {useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -8,13 +7,13 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { connect } from 'react-redux';
-import { MY_FILES } from '../../../store/staticVariable';
 import PreviewFileModal from './PreviewFileButton';
 import GetAppRoundedIcon from '@material-ui/icons/GetAppRounded';
 import DeleteRoundedIcon from '@material-ui/icons/DeleteRounded';
 import {sageDeleteFileMiddleware} from '../../../store/actions/DeleteFIleAction'
 import { Fragment } from 'react';
-import UpdateIcon from '@material-ui/icons/Update';
+import UpdateSharedFileButton from './UpdateSharedFileButton';
+
 
 const useStyles = makeStyles({
   table: {
@@ -27,16 +26,8 @@ const useStyles = makeStyles({
 
 function SharedFileVersionTable(props) {
 
+  console.log(props)
   const classes = useStyles();
-
-    const [disabledButtons , setDisabledButton] = useState({
-        view : false ,
-        download : false,
-        update : false,
-        delete : false        
-    })
-
-
 
   const filesInfo = props.filesList;
   console.log(filesInfo)
@@ -60,7 +51,19 @@ function SharedFileVersionTable(props) {
   }
 
   const tableBodyOption = (row) => {
-    let x;    
+    let x;   
+    console.log(row)
+    if(row.ownerId === props.user.id) {
+      x = <Fragment>
+        <TableCell align="right"><PreviewFileModal fileInfo={row}/></TableCell>
+        <TableCell align="right">
+          <GetAppRoundedIcon onClick={() => downloadFileHandler(row.ownerId , row.fileInfo.file_id)} />              
+        </TableCell>
+        <TableCell align="right"><UpdateSharedFileButton filesInfo={row.fileInfo} fileOwnerId={row.ownerId}/></TableCell>
+        <TableCell align="right"><DeleteRoundedIcon  onClick={() => {deleteFileHandler(row.fileInfo.file_id,row.ownerId)}}/></TableCell>
+        </Fragment>
+    } 
+    else {
     if(row.purpose === 'view') {
         x = 
         <Fragment>
@@ -86,7 +89,7 @@ function SharedFileVersionTable(props) {
         <TableCell align="right">
           <GetAppRoundedIcon onClick={() => downloadFileHandler(row.ownerId , row.fileInfo.file_id)} />              
         </TableCell>
-        <TableCell align="right"><UpdateIcon/></TableCell>
+        <TableCell align="right"><UpdateSharedFileButton filesInfo={row.fileInfo} fileOwnerId={row.ownerId} /></TableCell>
         <TableCell align="right">Not Permitted</TableCell>
         </Fragment>
     }
@@ -96,10 +99,11 @@ function SharedFileVersionTable(props) {
         <TableCell align="right">
           <GetAppRoundedIcon onClick={() => downloadFileHandler(row.ownerId , row.fileInfo.file_id)} />              
         </TableCell>
-        <TableCell align="right"><UpdateIcon/></TableCell>
+        <TableCell align="right"><UpdateSharedFileButton filesInfo={row.fileInfo} fileOwnerId={row.ownerId} /></TableCell>
         <TableCell align="right"><DeleteRoundedIcon  onClick={() => {deleteFileHandler(row.fileInfo.file_id,row.ownerId)}}/></TableCell>
         </Fragment>
     }
+  }
     return x;
   }
 
@@ -110,7 +114,6 @@ function SharedFileVersionTable(props) {
         <TableHead>
           <TableRow>
             <TableCell>File Name</TableCell>
-            <TableCell align="right">Shared With</TableCell>
             <TableCell align="right">Version</TableCell>
             <TableCell align="right">Preview</TableCell>
             <TableCell align="right">Download</TableCell>
@@ -125,7 +128,6 @@ function SharedFileVersionTable(props) {
             const result = tableBodyOption(row);
             return (<TableRow key={row.id}>
               <TableCell component="th" scope="row">{row.fileInfo.fileName}</TableCell>
-              <TableCell align="right">{row.userEmail}</TableCell>
               <TableCell align="right">{row.fileInfo.fileVersion}</TableCell>
                 {result}
               <TableCell align="right">{calculateDate(row.fileInfo.timestamp)  }</TableCell>
