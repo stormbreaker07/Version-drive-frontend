@@ -4,7 +4,7 @@ import { fileSharingService } from "../../services/filesServices/fileSharingServ
 export const fileSharingUtility = (data, callBackMethod) => {
     const promise = fileSharingService(data);
     promise.then((response) => {
-        if (response.data === "Action Successfull") {
+        if (response.data === "Action Successful") {
              callBackMethod("Success") 
             }
         else {
